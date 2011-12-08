@@ -19,11 +19,11 @@ var app = require(Protocol).createServer((Protocol === 'https') ? options: undef
 app.listen(8082);
 
 var wsServer = new WebSocketServer({
-  httpServer: app,
-  autoAcceptConnections: true
+  httpServer: app
 });
 
-wsServer.on('connection', function(connection) {
+wsServer.on('request', function(request) {
+  var connection = request.accept(null, request.origin);
   connection.on('message', function(message) {
     connection.sendBytes(message.binaryData);
   });
