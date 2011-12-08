@@ -1,0 +1,19 @@
+{
+  "author": "kazuyukitanimura <kazuyukitanimura@gmail.com>",
+  "name": "WebSocket-Node-binaryTransferBenchmark",
+  "description": "benchmark the WebSocket-Node binary file transfer performance",
+  "version": "0.0.1",
+  "private": true,
+  "repository": {
+    "url": ""
+  },
+  "main": "app.js",
+  "engines": {
+    "node": "~0.6.5"
+  },
+  "dependencies": {
+    "websocket": "1.0.2"
+  },
+  "devDependencies": {}
+}
+
