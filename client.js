@@ -14,12 +14,14 @@ var Protocol = process.argv[4] ? 'wss': 'ws' // the third argument
 /**
  * WevSocketClient connect
  */
-var ServerName = 'server';
-var TLD = 'info'
+//var ServerName = 'server.info';
+var ServerName = 'localhost';
 var PortN = 8082
 var WebSocketClient = require('websocket').client;
-var client = new WebSocketClient();
-client.connect(Protocol + '://' + ServerName + '.' + TLD + ':' + PortN);
+var client = new WebSocketClient({
+  maxReceivedMessageSize: 0x40000000 // 1GiB max message size
+});
+client.connect(Protocol + '://' + ServerName + ':' + PortN);
 
 /**
  * Error handler
@@ -52,9 +54,9 @@ client.on('connect', function(connection) {
 
       /**
        * Transfer ratio: Size(Bytes) / (ave(ms) / 2(roundtrip)) * 1000 = (Bytes per Second)
-       * (Bytes per Second) * 8 / 1000 = (kbps)
+       * (Bytes per Second) * 8 / 1024 = (kbps)
        */
-      console.log('Transfer ratio: ' + (Size / ave * 2000).toFixed(1) + '[Bytes per Second] = ' + (Size / ave * 16).toFixed(1) + '[kbps]');
+      console.log('Transfer ratio: ' + (Size / ave * 2000).toFixed(1) + '[Bytes per Second] = ' + (Size / ave * 15.625).toFixed(1) + '[kbps]');
       process.exit(0);
     }
   });
