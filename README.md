@@ -3,8 +3,13 @@ Binary Data Transfer Benchmark for [WebSocket-Node](https://github.com/kazuyukit
 This benchmark reports client -> server -> client binary data transfer latency on websocket and calculates the throughput (kbit per second).
 The binary data is randomly generated, and the websocket protocol is version 13.
 
+Dependencies Install
+====================
+    $ npm install
+
 Quick Start on localhost
-===========
+========================
+    $ npm install
     $ node app.js&
     $ node client.js 1048576 5
 
