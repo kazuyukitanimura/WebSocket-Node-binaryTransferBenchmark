@@ -1,4 +1,4 @@
-Binary Data Transfer Benchmark for [Web-Socket-Node](https://github.com/kazuyukitanimura/WebSocket-Node)
+Binary Data Transfer Benchmark for [WebSocket-Node](https://github.com/kazuyukitanimura/WebSocket-Node)
 =====
 This benchmark reports client -> server -> client binary data transfer latency on websocket and calculates the throughput (kbit per second).
 The binary data is randomly generated, and the websocket protocol is version 13.
