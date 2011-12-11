@@ -12,7 +12,7 @@
     "node": "~0.6.5"
   },
   "dependencies": {
-    "websocket": "1.0.2"
+    "websocket": "https://github.com/kazuyukitanimura/WebSocket-Node/tarball/master"
   },
   "devDependencies": {}
 }

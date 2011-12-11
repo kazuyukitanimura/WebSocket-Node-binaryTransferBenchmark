@@ -19,6 +19,7 @@ var ServerName = 'localhost';
 var PortN = 8082
 var WebSocketClient = require('websocket').client;
 var client = new WebSocketClient({
+//*fragmentationThreshold: 2,
   maxReceivedMessageSize: 0x40000000 // 1GiB max message size
 });
 client.connect(Protocol + '://' + ServerName + ':' + PortN);
@@ -44,6 +45,7 @@ client.on('connect', function(connection) {
    */
   connection.on('message', function(message) {
     var time = Date.now() - start;
+    //*console.log(message);
     console.log('Data size: ' + Size + ', roudtrip time: ' + time + ' ms');
     totalTime += time;
     if (--i) {
@@ -67,6 +69,7 @@ client.on('connect', function(connection) {
   function uploadStart(size) {
     crypto.randomBytes(size, function(ex, buf) {
       if (ex) throw ex;
+      //*console.log(buf);
       start = Date.now();
       connection.sendBytes(buf);
     });
