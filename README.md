@@ -21,6 +21,7 @@ Arguments
 Tips
 ----
 In order to quickly calculate the dataSize, \`echo "2^20"|bc\` tricks can be useful. For example, benchmarking 1MiB (= 2^20) data transferring performance, use
+
      $ node client.js `echo "2^20"|bc` 5
 
 In order to run on a remote server, edit client.js and change the serverName.
