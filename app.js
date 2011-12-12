@@ -3,6 +3,8 @@
  */
 
 var fs = require('fs');
+var cluster = require('cluster');
+var numCPUs = require('os').cpus().length;
 var WebSocketServer = require('websocket').server;
 
 /**
@@ -17,19 +19,32 @@ if (Protocol === 'https') {
   };
 }
 
-var app = require(Protocol).createServer((Protocol === 'https') ? options: undefined);
-app.listen(8082);
+if (cluster.isMaster) {
 
-var wsServer = new WebSocketServer({
-  httpServer: app,
-  maxReceivedMessageSize: 0x40000000, // 1GiB
-  assembleFragments: false // stream!!
-});
+  // Fork workers.
+  for (var i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
 
-wsServer.on('request', function(request) {
-  var connection = request.accept(null, request.origin);
-  connection.on('frame', function(frame) {
-    connection.sendFrame(frame);
+  cluster.on('death', function(worker) {
+    console.log('worker ' + worker.pid + ' died');
   });
-});
+
+} else {
+  var app = require(Protocol).createServer((Protocol === 'https') ? options: undefined);
+  app.listen(8082);
+
+  var wsServer = new WebSocketServer({
+    httpServer: app,
+    maxReceivedMessageSize: 0x40000000, // 1GiB
+    assembleFragments: false // stream!!
+  });
+
+  wsServer.on('request', function(request) {
+    var connection = request.accept(null, request.origin);
+    connection.on('frame', function(frame) {
+      connection.sendFrame(frame);
+    });
+  });
+}
 
