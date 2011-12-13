@@ -29,7 +29,8 @@ if (cluster.isMaster) {
   }
 
   cluster.on('death', function(worker) {
-    console.log('worker ' + worker.pid + ' died');
+    console.log('worker ' + worker.pid + ' died. restart...');
+    cluster.fork();
   });
 
 } else {
