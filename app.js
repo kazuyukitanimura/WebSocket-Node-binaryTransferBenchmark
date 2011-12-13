@@ -10,13 +10,15 @@ var WebSocketServer = require('websocket').server;
 /**
  * ARGV Set
  */
-var Protocol = process.argv[2] ? 'https': 'http' // the first argument
-if (Protocol === 'https') {
+if (process.argv[2]) { // the first argument
+  var Protocol = require('https');
   var ServerName = 'server';
   var options = {
     key: fs.readFileSync(ServerName + '.key'),
     cert: fs.readFileSync(ServerName + '.cert')
   };
+} else {
+  var Protocol = require('http');
 }
 
 if (cluster.isMaster) {
@@ -31,7 +33,7 @@ if (cluster.isMaster) {
   });
 
 } else {
-  var app = require(Protocol).createServer((Protocol === 'https') ? options: undefined);
+  var app = Protocol.createServer((Protocol === 'https') ? options: undefined);
   app.listen(8082);
 
   var wsServer = new WebSocketServer({
